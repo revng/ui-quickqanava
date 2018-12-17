@@ -380,8 +380,8 @@ void    EdgeItem::generateStraightEnds(GeometryCache& cache) const noexcept
         {
             const auto arrowSize = getArrowSize();
             const auto arrowLength = arrowSize * 3.;
-            if ( line.length() < 2.0 + arrowLength )
-                cache.hidden = true;
+            //if (arrowLength > 0 && line.length() < 2.0 + arrowLength )
+            //    cache.hidden = true;
             if ( cache.hidden )  // Fast exit if edge is hidden
                 return;
         }
