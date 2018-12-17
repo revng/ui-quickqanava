@@ -70,6 +70,8 @@ static const struct {
     { "GraphView", 2, 0 },
     { "Group", 2, 0 },
     { "RectNodeTemplate", 2, 0 },
+    { "RectShadowEffect", 2, 0 },
+    { "RectGlowEffect", 2, 0 },
     { "RectSolidBackground",  2, 0 },
     { "RectGroupTemplate",  2, 0 },
     { "CanvasNodeTemplate",  2, 0 },
@@ -138,6 +140,6 @@ QString QuickQanavaPlugin::fileLocation() const
 bool QuickQanavaPlugin::isLoadedFromResource() const
 {
     // If one file is missing, it will load all the files from the resource
-    QFile file(baseUrl().toLocalFile() + qmldir[0].type + ".qml");
+    QFile file(baseUrl().toLocalFile() + "/" + qmldir[0].type + ".qml");
     return !file.exists();
 }

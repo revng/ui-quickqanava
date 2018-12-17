@@ -12,6 +12,8 @@ Group               2.0 Group.qml
 RectNodeTemplate    2.0 RectNodeTemplate.qml
 RectSolidBackground 2.0 RectSolidBackground.qml
 RectGroupTemplate   2.0 RectGroupTemplate.qml
+RectShadowEffect    2.0 RectShadowEffect.qml
+RectGlowEffect      2.0 RectGlowEffect.qml
 CanvasNodeTemplate  2.0 CanvasNodeTemplate.qml
 VisualConnector     2.0 VisualConnector.qml
 LabelEditor         2.0 LabelEditor.qml
