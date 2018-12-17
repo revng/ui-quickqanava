@@ -768,6 +768,8 @@ public:
     Q_INVOKABLE void autoPositionNodes() noexcept;
     //@}
     //-------------------------------------------------------------------------
+signals:
+    void requestClearSelection();
 };
 
 } // ::qan

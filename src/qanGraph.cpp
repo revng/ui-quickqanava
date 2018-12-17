@@ -62,6 +62,7 @@ Graph::Graph( QQuickItem* parent ) noexcept :
     setContainerItem(this);
     setAntialiasing(true);
     setSmooth(true);
+    connect(this, &qan::Graph::requestClearSelection, this, &qan::Graph::clearSelection);
 }
 
 void    Graph::classBegin()
