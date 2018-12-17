@@ -50,16 +50,16 @@ import "qrc:/QuickQanava" as Qan
  */
 Qan.AbstractGraphView {
     id: graphView
-    Qan.LineGrid { id: lineGrid }
-    grid: lineGrid
+    // Qan.LineGrid { id: lineGrid }
+    // grid: lineGrid
 
     property real maxZ: -1.    // Node management ////////////////////////////////////////////////////////
 
-    property color  gridThickColor: grid ? grid.thickColor : lineGrid.thickColor
-    onGridThickColorChanged: {
-        if ( grid )
-            grid.thickColor = gridThickColor
-    }
+    // property color  gridThickColor: grid ? grid.thickColor : lineGrid.thickColor
+    // onGridThickColorChanged: {
+    //     if ( grid )
+    //         grid.thickColor = gridThickColor
+    // }
 
     property color  resizeHandlerColor: Qt.rgba(0.117, 0.564, 1.0)  // dodgerblue=rgb( 30, 144, 255)
     property real   resizeHandlerOpacity: 1.0
