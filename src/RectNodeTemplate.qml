@@ -80,9 +80,10 @@ Item {
         id: layout
         anchors.fill: parent
         anchors.margins: nodeItem.style.backRadius / 2.; spacing: 0
-        visible: !labelEditor.visible
+        visible: true //!labelEditor.visible
         Label {
             id: nodeLabel
+            objectName: "nodeLabel"
             Layout.fillWidth: true
             Layout.fillHeight: contentLayout.children.length === 0
             Layout.preferredHeight: contentHeight
@@ -92,6 +93,8 @@ Item {
             horizontalAlignment: Qt.AlignHCenter; verticalAlignment: Qt.AlignVCenter
             maximumLineCount: 3 // Must be set, otherwise elide don't work and we end up with single line text
             elide: Text.ElideRight; wrapMode: Text.Wrap
+            font.family: "monospace"
+            font.pixelSize: 8
         }
         Item {
             id: contentLayout
@@ -103,13 +106,13 @@ Item {
     }
     Connections {
         target: nodeItem
-        onNodeDoubleClicked: labelEditor.visible = true
+        // onNodeDoubleClicked: labelEditor.visible = true
     }
-    LabelEditor {
-        id: labelEditor
-        anchors.fill: parent
-        anchors.margins: nodeItem.style.backRadius / 2.
-        target: parent.nodeItem.node
-        visible: false
-    }
+    //LabelEditor {
+    //    id: labelEditor
+    //    anchors.fill: parent
+    //    anchors.margins: nodeItem.style.backRadius / 2.
+    //    target: parent.nodeItem.node
+    //    visible: false
+    //}
 }
