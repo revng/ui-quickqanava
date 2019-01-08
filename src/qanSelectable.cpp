@@ -86,7 +86,7 @@ void    Selectable::setSelected( bool selected ) noexcept
         emitSelectedChanged();
     }
     if ( getSelectionItem() != nullptr )    // Done outside of binding loop protection
-        getSelectionItem()->setState( selected ? "SELECTED" : "UNSELECTED" );
+        getSelectionItem()->setState( selected ? QString::fromUtf8("SELECTED") : QString::fromUtf8("UNSELECTED"));
 }
 
 void    Selectable::setSelectionItem( QQuickItem* selectionItem ) noexcept
@@ -110,7 +110,7 @@ void    Selectable::setSelectionItem( QQuickItem* selectionItem ) noexcept
             _selectionItem = QPointer<QQuickItem>(selectionItem);
             if ( _selectionItem ) {
                 if ( getSelectable() )
-                    _selectionItem->setState( getSelected() ? "SELECTED" : "UNSELECTED" );
+                    _selectionItem->setState( getSelected() ? QString::fromUtf8("SELECTED") : QString::fromUtf8("UNSELECTED") );
                 if ( _target ) {
                     _selectionItem->setParentItem( _target.data() );  // Configure Quick item
                     _selectionItem->setZ(1.0);

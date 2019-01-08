@@ -73,7 +73,7 @@ public:
     explicit Error( const std::string& what_arg ) :
         std::runtime_error{what_arg}, _msg{ QString::fromStdString(what_arg) } { }
     explicit Error( const char* what_arg ) :
-        std::runtime_error{what_arg}, _msg{ QString(what_arg) } { }
+        std::runtime_error{what_arg}, _msg{ QString::fromUtf8(what_arg) } { }
     explicit Error( const QString& msg_arg ) : std::runtime_error{ "" }, _msg{msg_arg} { }
 
     const QString&  getMsg() const noexcept { return _msg; }
