@@ -70,7 +70,7 @@ list(APPEND RESOURCES QuickQanava_plugin.qrc)
 set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS $<$<CONFIG:Debug>:QT_QML_DEBUG>)
 
 # Configure QuickQanava library ###############################################
-add_library(QuickQanava ${qan_source_files} ${qan_header_files} ${RESOURCES})
+add_library(QuickQanava SHARED ${qan_source_files} ${qan_header_files} ${RESOURCES})
 target_include_directories(QuickQanava
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
