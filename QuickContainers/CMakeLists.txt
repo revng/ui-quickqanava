@@ -67,14 +67,17 @@ target_link_libraries(QuickContainers Qt5::Core Qt5::Qml)
 target_link_libraries(${PLUGIN_TARGET} QuickContainers)
 
 # QML module deployment
+if (NOT DEFINED QML_PLUGIN_INSTALL_DIRECTORY)
+    if (NOT DEFINED QT_QMAKE_EXECUTABLE)
+        get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    endif()
+    execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML OUTPUT_VARIABLE QT_INSTALL_QML_RAW)
+    string(STRIP ${QT_INSTALL_QML_RAW} QML_PLUGIN_INSTALL_DIRECTORY)
+endif()
+
 set(URI QuickContainers)
 string(REPLACE "." "/" TARGETPATH ${URI})
-if (NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-endif()
-execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML OUTPUT_VARIABLE QT_INSTALL_QML_RAW)
-string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
-set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
+set(DESTDIR "${QML_PLUGIN_INSTALL_DIRECTORY}/${TARGETPATH}")
 install(TARGETS ${PLUGIN_TARGET} DESTINATION ${DESTDIR})
 
 # Install QML module qmldir file
