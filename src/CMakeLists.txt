@@ -115,25 +115,23 @@ string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
 set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
 install(TARGETS ${PLUGIN_TARGET} DESTINATION ${DESTDIR})
 
-#message("QT_INSTALL_QML=" ${QT_INSTALL_QML})
-
 # Install qmldir file
-#add_custom_command(
-#    TARGET ${PLUGIN_TARGET}
-#    POST_BUILD
-#    COMMAND
-#        ${CMAKE_COMMAND} -E copy
-#        ${CMAKE_CURRENT_SOURCE_DIR}/qmldir_plugin
-#        ${DESTDIR}/qmldir
-#)
+add_custom_command(
+   TARGET ${PLUGIN_TARGET}
+   POST_BUILD
+   COMMAND
+       ${CMAKE_COMMAND} -E copy
+       ${CMAKE_CURRENT_SOURCE_DIR}/qmldir_plugin
+       ${DESTDIR}/qmldir
+)
 
 # Install source QML files to ease debugging
-#add_custom_command(
-#    TARGET ${PLUGIN_TARGET}
-#    POST_BUILD
-#    COMMAND
-#        ${CMAKE_COMMAND} -E copy
-#        ${qan_qml_files}
-#        ${DESTDIR}
-#)
-#
+add_custom_command(
+   TARGET ${PLUGIN_TARGET}
+   POST_BUILD
+   COMMAND
+       ${CMAKE_COMMAND} -E copy
+       ${qan_qml_files}
+       ${DESTDIR}
+)
+

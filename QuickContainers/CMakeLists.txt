@@ -78,12 +78,12 @@ set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
 install(TARGETS ${PLUGIN_TARGET} DESTINATION ${DESTDIR})
 
 # Install QML module qmldir file
-#add_custom_command(
-#    TARGET ${PLUGIN_TARGET}
-#    POST_BUILD
-#    COMMAND
-#        ${CMAKE_COMMAND} -E copy
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/qmldir
-#        ${DESTDIR}/qmldir
-#)
+add_custom_command(
+   TARGET ${PLUGIN_TARGET}
+   POST_BUILD
+   COMMAND
+       ${CMAKE_COMMAND} -E copy
+       ${CMAKE_CURRENT_SOURCE_DIR}/src/qmldir
+       ${DESTDIR}/qmldir
+)
 
