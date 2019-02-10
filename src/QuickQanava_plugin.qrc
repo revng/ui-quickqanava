@@ -27,6 +27,6 @@
         <file>StyleEditor.qml</file>
         <file>VisualConnector.qml</file>
         <file>LabelEditor.qml</file>
-        <file alias="qmldir">qmldir_plugin</file>
+        <file alias="qmldir">qmldir_static</file>
     </qresource>
 </RCC>
