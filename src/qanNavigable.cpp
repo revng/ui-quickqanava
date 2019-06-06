@@ -82,7 +82,7 @@ void    Navigable::centerOn( QQuickItem* item )
     QPointF navigableCenter{ width() / 2., height() / 2. };
     QPointF navigableCenterContainerCs = mapToItem( _containerItem, navigableCenter );
     QPointF itemCenterContainerCs{ item->mapToItem( _containerItem, QPointF{ item->width() / 2., item->height() / 2. } ) };
-    QPointF translation{ navigableCenterContainerCs - itemCenterContainerCs };
+    QPointF translation{ (navigableCenterContainerCs - itemCenterContainerCs) * _zoom };
     _containerItem->setPosition( QPointF{ _containerItem->x() + translation.x(),
                                           _containerItem->y() + translation.y() } );
     updateGrid();
