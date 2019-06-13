@@ -366,10 +366,21 @@ void    Navigable::mouseReleaseEvent( QMouseEvent* event )
 void    Navigable::wheelEvent( QWheelEvent* event )
 {
     if ( getNavigable() ) {
-        qreal zoomFactor = ( event->angleDelta().y() > 0. ? _zoomIncrement : -_zoomIncrement );
-        zoomOn( QPointF{ static_cast<qreal>(event->x()),
-                         static_cast<qreal>(event->y()) },
-                getZoom() + zoomFactor );
+        if(event->modifiers() & Qt::ControlModifier) {
+            // if ctrl is pressed
+            qreal zoomFactor = (event->angleDelta().y() > 0. ? _zoomIncrement
+                                                             : -_zoomIncrement);
+            zoomOn( QPointF{ static_cast<qreal>(event->x()),
+                            static_cast<qreal>(event->y()) },
+                    getZoom() + zoomFactor );
+        } else {
+            QPointF delta(event->angleDelta().x(), -event->angleDelta().y());
+            QPointF p{ QPointF{ _containerItem->x(), _containerItem->y() } - delta };
+            _containerItem->setX( p.x() );
+            _containerItem->setY( p.y() );
+            emit containerItemModified();
+            navigableContainerItemModified();
+        }
     }
     updateGrid();
 
