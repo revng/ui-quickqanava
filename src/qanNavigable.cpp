@@ -83,9 +83,37 @@ void    Navigable::centerOn( QQuickItem* item )
     QPointF navigableCenterContainerCs = mapToItem( _containerItem, navigableCenter );
     QPointF itemCenterContainerCs{ item->mapToItem( _containerItem, QPointF{ item->width() / 2., item->height() / 2. } ) };
     QPointF translation{ (navigableCenterContainerCs - itemCenterContainerCs) * _zoom };
-    _containerItem->setPosition( QPointF{ _containerItem->x() + translation.x(),
-                                          _containerItem->y() + translation.y() } );
-    updateGrid();
+
+    QPointF curPos{_containerItem->x(), _containerItem->y()};
+    QPointF tgtPos{_containerItem->x() + translation.x(),
+                   _containerItem->y() + translation.y()};
+
+    float perc = 0;
+    QTimer *t = new QTimer();
+    connect(t, &QTimer::timeout, [t, this, curPos, tgtPos, perc]() mutable {
+        bool stop = false;
+        if (perc > 1.0f) {
+            perc = 1.0f;
+            stop = true;
+        }
+
+        auto ease = [](float t) -> float { return -.5f * (cos(M_PI * t) - 1.f); };
+        auto mix = [](float x, float y, float a) -> float { return x * (1.f - a) + y * a; };
+
+        QPointF cPos{mix(curPos.x(), tgtPos.x(), ease(perc)),
+                     mix(curPos.y(), tgtPos.y(), ease(perc))};
+        _containerItem->setPosition(cPos);
+        updateGrid();
+        perc += 0.1f;
+        if(stop) {
+            t->stop();
+            t->deleteLater();
+        }
+    });
+
+    t->setInterval(20);
+    t->setSingleShot(false);
+    t->start();
 }
 
 void    Navigable::fitInView( )
