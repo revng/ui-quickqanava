@@ -37,6 +37,7 @@
 
 // Qt headers
 #include <QQuickItem>
+#include <QTimer>
 
 // QuickQanava headers
 #include "./qanGrid.h"
@@ -149,10 +150,14 @@ public:
     inline QQuickItem*  getContainerItem() noexcept { return _containerItem; }
 private:
     QQuickItem*         _containerItem{nullptr};
+    QTimer              _centerAnimTimer;
+    QPointF             _cAnimCurPos, _cAnimTgtPos;
+    float               _cAnimPerc;
+    void                _cAnimCallback();
 
 public:
     //! Center the view on a given child item (zoom level is not modified).
-    Q_INVOKABLE void    centerOn( QQuickItem* item );
+    Q_INVOKABLE void    centerOn( QQuickItem* item, bool animated = true);
 
     /*! Fit the area content (\c containerItem childs) in view and update current zoom level.
      *

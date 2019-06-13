@@ -56,8 +56,33 @@ Navigable::Navigable( QQuickItem* parent ) :
     });
     setAcceptedMouseButtons( Qt::RightButton | Qt::LeftButton );
     setTransformOrigin( TransformOrigin::TopLeft );
+
+    _centerAnimTimer.setInterval(20);
+    _centerAnimTimer.setSingleShot(false);
+    connect(&_centerAnimTimer, &QTimer::timeout, this, &Navigable::_cAnimCallback);
 }
 //-----------------------------------------------------------------------------
+
+void Navigable::_cAnimCallback() {
+    bool stop = false;
+    if (_cAnimPerc > 1.0f) {
+        _cAnimPerc = 1.0f;
+        stop = true;
+    }
+
+    auto ease = [](float t) -> float { return -.5f * (cos(M_PI * t) - 1.f); };
+    auto mix = [](float x, float y, float a) -> float {
+        return x * (1.f - a) + y * a;
+    };
+
+    QPointF cPos{mix(_cAnimCurPos.x(), _cAnimTgtPos.x(), ease(_cAnimPerc)),
+                 mix(_cAnimCurPos.y(), _cAnimTgtPos.y(), ease(_cAnimPerc))};
+    _containerItem->setPosition(cPos);
+    updateGrid();
+    _cAnimPerc += 0.1f;
+    if (stop)
+        _centerAnimTimer.stop();
+}
 
 /* Navigation Management *///--------------------------------------------------
 void    Navigable::setNavigable( bool navigable ) noexcept
@@ -68,7 +93,7 @@ void    Navigable::setNavigable( bool navigable ) noexcept
     }
 }
 
-void    Navigable::centerOn( QQuickItem* item )
+void    Navigable::centerOn( QQuickItem* item, bool animated )
 {
     // Algorithm:
         // 1. Project navigable view center in container item CS.
@@ -85,35 +110,19 @@ void    Navigable::centerOn( QQuickItem* item )
     QPointF translation{ (navigableCenterContainerCs - itemCenterContainerCs) * _zoom };
 
     QPointF curPos{_containerItem->x(), _containerItem->y()};
-    QPointF tgtPos{_containerItem->x() + translation.x(),
-                   _containerItem->y() + translation.y()};
+    QPointF tgtPos{curPos.x() + translation.x(),
+                   curPos.y() + translation.y()};
 
-    float perc = 0;
-    QTimer *t = new QTimer();
-    connect(t, &QTimer::timeout, [t, this, curPos, tgtPos, perc]() mutable {
-        bool stop = false;
-        if (perc > 1.0f) {
-            perc = 1.0f;
-            stop = true;
-        }
-
-        auto ease = [](float t) -> float { return -.5f * (cos(M_PI * t) - 1.f); };
-        auto mix = [](float x, float y, float a) -> float { return x * (1.f - a) + y * a; };
-
-        QPointF cPos{mix(curPos.x(), tgtPos.x(), ease(perc)),
-                     mix(curPos.y(), tgtPos.y(), ease(perc))};
-        _containerItem->setPosition(cPos);
+    if (!animated) {
+        _containerItem->setPosition(tgtPos);
         updateGrid();
-        perc += 0.1f;
-        if(stop) {
-            t->stop();
-            t->deleteLater();
-        }
-    });
-
-    t->setInterval(20);
-    t->setSingleShot(false);
-    t->start();
+    } else {
+        _centerAnimTimer.stop();
+        _cAnimCurPos = curPos;
+        _cAnimTgtPos = tgtPos;
+        _cAnimPerc = 0;
+        _centerAnimTimer.start();
+    }
 }
 
 void    Navigable::fitInView( )
