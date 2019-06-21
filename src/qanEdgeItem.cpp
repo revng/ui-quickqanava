@@ -730,7 +730,7 @@ void    EdgeItem::generateCurvedControlPoints(GeometryCache& cache) const noexce
         const QPointF normal = QPointF{ -line.dy(), line.dx() } / ( lineLength * invert );
 
         if ( srcPort == nullptr )
-            cache.c1 = center - ( normal * controlPointDistance );
+            cache.c1 = cache.p1 + QPointF(controlPointDistance,0);
         if ( dstPort == nullptr )
             cache.c2 = center + ( normal * controlPointDistance );
     }
