@@ -325,6 +325,16 @@ signals:
     //! \copydoc dragActive
     void        dragActiveChanged( );
 
+public:
+    //! True when the scroll using the mouse wheel should be disabled.
+    inline bool getScrollDisabled() const noexcept { return _scrollDisabled; }
+
+    //! \copydoc getScrollDisabled
+    void setScrollDisabled(bool disabled) noexcept { _scrollDisabled = disabled; }
+private:
+    //! \copydoc getScrollDisabled
+    bool _scrollDisabled{ false };
+
 protected:
     virtual void    geometryChanged( const QRectF& newGeometry, const QRectF& oldGeometry ) override;
     virtual void    mouseMoveEvent( QMouseEvent* event ) override;

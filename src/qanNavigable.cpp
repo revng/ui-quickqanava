@@ -392,7 +392,7 @@ void    Navigable::mouseReleaseEvent( QMouseEvent* event )
             navigableClicked( event->localPos() );
         } else if ( event->button() == Qt::RightButton ) {
             emit rightClicked( event->localPos() );
-            navigableRightClicked(event->localPos() );
+            navigableRightClicked( event->localPos() );
         }
         setDragActive(false);
         _leftButtonPressed = false;
@@ -410,13 +410,15 @@ void    Navigable::wheelEvent( QWheelEvent* event )
             zoomOn( QPointF{ static_cast<qreal>(event->x()),
                             static_cast<qreal>(event->y()) },
                     getZoom() + zoomFactor );
-        } else {
+        } else if ((event->modifiers() & (Qt::ShiftModifier | Qt::AltModifier)) || !getScrollDisabled()) {
             QPointF delta(event->angleDelta().x(), -event->angleDelta().y());
             QPointF p{ QPointF{ _containerItem->x(), _containerItem->y() } - delta };
             _containerItem->setX( p.x() );
             _containerItem->setY( p.y() );
             emit containerItemModified();
             navigableContainerItemModified();
+        } else {
+            QQuickItem::wheelEvent( event );
         }
     }
     updateGrid();
