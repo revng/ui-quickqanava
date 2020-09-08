@@ -119,22 +119,11 @@ set(DESTDIR "${QML_PLUGIN_INSTALL_DIRECTORY}/${TARGETPATH}")
 install(TARGETS ${PLUGIN_TARGET} DESTINATION ${DESTDIR})
 
 # Install qmldir file
-add_custom_command(
-   TARGET ${PLUGIN_TARGET}
-   POST_BUILD
-   COMMAND
-       ${CMAKE_COMMAND} -E copy
-       ${CMAKE_CURRENT_SOURCE_DIR}/qmldir_plugin
-       ${DESTDIR}/qmldir
-)
+file(RELATIVE_PATH INSTALL_PATH "${CMAKE_INSTALL_PREFIX}" "${DESTDIR}/qmldir")
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qmldir_plugin
+  DESTINATION "${INSTALL_PATH}")
 
 # Install source QML files to ease debugging
-add_custom_command(
-   TARGET ${PLUGIN_TARGET}
-   POST_BUILD
-   COMMAND
-       ${CMAKE_COMMAND} -E copy
-       ${qan_qml_files}
-       ${DESTDIR}
-)
-
+file(RELATIVE_PATH INSTALL_PATH "${CMAKE_INSTALL_PREFIX}" "${DESTDIR}")
+install(FILES ${qan_qml_files}
+  DESTINATION "${INSTALL_PATH}")
